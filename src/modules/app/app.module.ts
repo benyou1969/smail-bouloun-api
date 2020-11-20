@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as redisStore from 'cache-manager-redis-store';
 import { SnakeNamingStrategy } from 'src/utils/strategies';
+import { AuthModule } from '../auth/auth.module';
 import { User } from '../user/user.entity';
 import { UserModule } from '../user/user.module';
 
@@ -20,7 +21,6 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
-    UserModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -32,6 +32,8 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
