@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as redisStore from 'cache-manager-redis-store';
 import { SnakeNamingStrategy } from 'src/utils/strategies';
 import { AuthModule } from '../auth/auth.module';
+import { Product } from '../product/entities/product.entity';
+import { ProductModule } from '../product/product.module';
 import { User } from '../user/user.entity';
 import { UserModule } from '../user/user.module';
 
@@ -26,7 +28,7 @@ import { AppService } from './app.service';
       useFactory: (configService: ConfigService) => ({
         url: configService.get('DATABASE_URL'),
         type: 'postgres',
-        entities: [User],
+        entities: [User, Product],
         synchronize: true,
         namingStrategy: new SnakeNamingStrategy(),
       }),
@@ -34,6 +36,7 @@ import { AppService } from './app.service';
     }),
     AuthModule,
     UserModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
