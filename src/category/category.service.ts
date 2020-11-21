@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CategoryRepository } from './category.repository';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -20,7 +20,9 @@ export class CategoryService {
   }
 
   async findOne(id: string) {
-    return await this.categoryRepository.findOneOrFail(id);
+    return await this.categoryRepository.findOneOrFail(id).catch((e) => {
+      throw new NotFoundException(`item with id '${id}' was not found`);
+    });
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
