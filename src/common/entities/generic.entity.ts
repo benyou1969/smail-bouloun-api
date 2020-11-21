@@ -3,6 +3,7 @@ import {
   UpdateDateColumn,
   PrimaryGeneratedColumn,
   BaseEntity,
+  DeleteDateColumn,
 } from 'typeorm';
 
 export class GenericEntity extends BaseEntity {
@@ -14,4 +15,7 @@ export class GenericEntity extends BaseEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

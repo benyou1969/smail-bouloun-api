@@ -13,6 +13,7 @@ import {
 
 import { AppModule } from './modules/app/app.module';
 import { setupSwagger } from './utils';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -27,6 +28,7 @@ async function bootstrap() {
   app.use(compression());
   app.use(RateLimit({ windowMs: 15 * 60 * 1000, max: 200 }));
   app.use(morgan('tiny'));
+  app.useGlobalPipes(new ValidationPipe());
 
   setupSwagger(app);
 
