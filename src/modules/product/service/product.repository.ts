@@ -13,12 +13,14 @@ import { UpdateProductDto } from '../dto/update-product.dto';
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-    const { name, price, description } = createProductDto;
+    const { name, price, description, options } = createProductDto;
+
     const product = new Product();
     product.id = uuid();
     product.name = name;
     product.description = description;
     product.price = price;
+    product.options = options;
 
     try {
       return await product.save();

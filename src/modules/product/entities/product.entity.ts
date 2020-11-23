@@ -16,4 +16,17 @@ export class Product extends GenericEntity {
   reference: string;
   @Column({ nullable: true })
   description: string;
+  @Column({
+    type: 'jsonb',
+    array: false,
+    default: () => "'[{}]'",
+    nullable: true,
+  })
+  options: Array<{
+    property: {
+      id: number;
+      key: string;
+      value: any;
+    };
+  }>;
 }

@@ -6,6 +6,7 @@ import {
   IsBoolean,
   IsInt,
   IsPositive,
+  IsArray,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -38,4 +39,15 @@ export class CreateProductDto {
   @IsString()
   @IsOptional()
   description: string;
+
+  @IsArray()
+  @IsOptional()
+  @ApiProperty({ default: [{}] })
+  options: Array<{
+    property: {
+      id: number;
+      key: string;
+      value: any;
+    };
+  }>;
 }

@@ -2,8 +2,10 @@ import { CacheModule, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as redisStore from 'cache-manager-redis-store';
-import { CategoryModule } from 'src/category/category.module';
-import { Category } from 'src/category/entities/category.entity';
+import { CategoryModule } from 'src/modules/category/category.module';
+import { Category } from 'src/modules/category/entities/category.entity';
+import { ProductProperty } from 'src/modules/product-property/entities/product-property.entity';
+import { ProductPropertyModule } from 'src/modules/product-property/product-property.module';
 import { SnakeNamingStrategy } from 'src/utils/strategies';
 import { AuthModule } from '../auth/auth.module';
 import { Product } from '../product/entities/product.entity';
@@ -30,7 +32,7 @@ import { AppService } from './app.service';
       useFactory: (configService: ConfigService) => ({
         url: configService.get('DATABASE_URL'),
         type: 'postgres',
-        entities: [User, Product, Category],
+        entities: [User, Product, Category, ProductProperty],
         synchronize: true,
         namingStrategy: new SnakeNamingStrategy(),
       }),
@@ -40,6 +42,7 @@ import { AppService } from './app.service';
     UserModule,
     CategoryModule,
     ProductModule,
+    ProductPropertyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
