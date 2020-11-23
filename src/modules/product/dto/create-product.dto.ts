@@ -8,7 +8,6 @@ import {
   IsPositive,
   IsArray,
 } from 'class-validator';
-
 export class CreateProductDto {
   @ApiProperty()
   @IsString()
@@ -50,4 +49,9 @@ export class CreateProductDto {
       value: any;
     };
   }>;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  category_id: string;
 }

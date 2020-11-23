@@ -1,5 +1,7 @@
+import { Column, Entity, OneToMany, Unique } from 'typeorm';
+
 import { GenericEntity } from 'src/common/entities/generic.entity';
-import { Column, Entity, Unique } from 'typeorm';
+import { Product } from 'src/modules/product/entities/product.entity';
 
 @Entity('category')
 @Unique(['name'])
@@ -10,4 +12,9 @@ export class Category extends GenericEntity {
   description: string;
   @Column({ nullable: true })
   images: string;
+
+  @OneToMany((type) => Product, (product) => product.category, {
+    eager: true,
+  })
+  products: Product[];
 }

@@ -6,21 +6,24 @@ import {
 } from '@nestjs/common';
 import { Repository, EntityRepository } from 'typeorm';
 
-import { Product } from '../entities/product.entity';
-import { CreateProductDto } from '../dto/create-product.dto';
-import { UpdateProductDto } from '../dto/update-product.dto';
+import { Product } from './entities/product.entity';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { Category } from '../category/entities/category.entity';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-    const { name, price, description, options } = createProductDto;
-
+    const { name, price, description, options, category_id } = createProductDto;
+    const category = await Category.findOne(category_id);
+    console.log(category);
     const product = new Product();
     product.id = uuid();
     product.name = name;
     product.description = description;
     product.price = price;
     product.options = options;
+    product.category = category;
 
     try {
       return await product.save();

@@ -1,5 +1,6 @@
 import { GenericEntity } from 'src/common/entities/generic.entity';
-import { Column, Entity, Unique } from 'typeorm';
+import { Category } from 'src/modules/category/entities/category.entity';
+import { Column, Entity, ManyToOne, Unique } from 'typeorm';
 
 @Entity('products')
 @Unique(['name'])
@@ -29,4 +30,9 @@ export class Product extends GenericEntity {
       value: any;
     };
   }>;
+
+  @ManyToOne((type) => Category, (category) => category.products, {
+    eager: false,
+  })
+  category: Category;
 }
