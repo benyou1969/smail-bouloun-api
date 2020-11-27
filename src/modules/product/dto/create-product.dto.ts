@@ -53,5 +53,10 @@ export class CreateProductDto {
   @ApiProperty()
   @IsString()
   @IsOptional()
-  category_id: string;
+  tag_id: string;
+
+  @ApiProperty()
+  @IsArray()
+  @IsOptional()
+  product_property_ids: [];
 }

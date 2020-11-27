@@ -10,11 +10,14 @@ import { SnakeNamingStrategy } from 'src/utils/strategies';
 import { AuthModule } from '../auth/auth.module';
 import { Product } from '../product/entities/product.entity';
 import { ProductModule } from '../product/product.module';
+import { Tag } from '../tag/entities/tag.entity';
+import { TagModule } from '../tag/tag.module';
 import { User } from '../user/user.entity';
 import { UserModule } from '../user/user.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -32,15 +35,19 @@ import { AppService } from './app.service';
       useFactory: (configService: ConfigService) => ({
         url: configService.get('DATABASE_URL'),
         type: 'postgres',
-        entities: [User, Product, Category, ProductProperty],
+        entities: [User, Product, Category, ProductProperty, Tag],
         synchronize: true,
         namingStrategy: new SnakeNamingStrategy(),
       }),
       inject: [ConfigService],
     }),
+    MulterModule.register({
+      dest: './uploads',
+    }),
     AuthModule,
     UserModule,
     CategoryModule,
+    TagModule,
     ProductModule,
     ProductPropertyModule,
   ],

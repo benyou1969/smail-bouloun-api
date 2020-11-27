@@ -37,3 +37,5 @@ lerna-debug.log*
 .env
 # Redis Binary Files
 *.rdb
+
+uploads/

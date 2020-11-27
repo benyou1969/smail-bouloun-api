@@ -10,18 +10,20 @@ import { Repository, EntityRepository } from 'typeorm';
 import { UpdateProductPropertyDto } from './dto/update-product-property.dto';
 import { CreateProductPropertyDto } from './dto/create-product-property.dto';
 import { ProductProperty } from './entities/product-property.entity';
+import { Tag } from '../tag/entities/tag.entity';
 
 @EntityRepository(ProductProperty)
 export class ProductPropertyRepository extends Repository<ProductProperty> {
   async createProductProperty(
     createProductPropertyDto: CreateProductPropertyDto,
   ): Promise<ProductProperty> {
-    const { propertyName, propertyValue } = createProductPropertyDto;
-
+    const { propertyName, propertyValue, tag_id } = createProductPropertyDto;
+    const tag = await Tag.findOne(tag_id);
     const productProperty = new ProductProperty();
     productProperty.id = uuid();
     productProperty.propertyName = propertyName;
     productProperty.propertyValue = propertyValue;
+    productProperty.tag = tag;
 
     try {
       return await productProperty.save();

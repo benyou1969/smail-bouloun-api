@@ -14,12 +14,14 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoryRepository extends Repository<Category> {
   async createCategory(
     createCategoryDto: CreateCategoryDto,
+    response,
   ): Promise<Category> {
     const { name, description } = createCategoryDto;
     const category = new Category();
     category.id = uuid();
     category.name = name;
     category.description = description;
+    category.images = `http://localhost:8080/imgs/${response.filename}`;
     try {
       return await category.save();
     } catch (error) {

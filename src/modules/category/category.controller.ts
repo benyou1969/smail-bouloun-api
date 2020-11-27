@@ -7,12 +7,17 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { diskStorage } from 'multer';
+import { editFileName, imageFileFilter } from 'src/utils/uploadfile';
 
 @ApiTags('category')
 @Controller('category')
@@ -20,8 +25,25 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoryService.create(createCategoryDto);
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: imageFileFilter,
+      limits: {
+        fileSize: 10000000,
+      },
+      storage: diskStorage({
+        destination: './uploads',
+
+        filename: editFileName,
+      }),
+    }),
+  )
+  create(@Body() createCategoryDto: CreateCategoryDto, @UploadedFile() file) {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    return this.categoryService.create(createCategoryDto, response);
   }
 
   @Get()

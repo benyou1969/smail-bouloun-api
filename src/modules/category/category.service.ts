@@ -11,8 +11,11 @@ export class CategoryService {
     private readonly categoryRepository: CategoryRepository,
   ) {}
 
-  async create(createCategoryDto: CreateCategoryDto) {
-    return await this.categoryRepository.createCategory(createCategoryDto);
+  async create(createCategoryDto: CreateCategoryDto, response) {
+    return await this.categoryRepository.createCategory(
+      createCategoryDto,
+      response,
+    );
   }
 
   async findAll() {

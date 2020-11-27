@@ -1,6 +1,14 @@
 import { GenericEntity } from 'src/common/entities/generic.entity';
-import { Category } from 'src/modules/category/entities/category.entity';
-import { Column, Entity, ManyToOne, Unique } from 'typeorm';
+import { ProductProperty } from 'src/modules/product-property/entities/product-property.entity';
+import { Tag } from 'src/modules/tag/entities/tag.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  Unique,
+} from 'typeorm';
 
 @Entity('products')
 @Unique(['name'])
@@ -31,8 +39,14 @@ export class Product extends GenericEntity {
     };
   }>;
 
-  @ManyToOne((type) => Category, (category) => category.products, {
+  @ManyToOne((type) => Tag, (tag) => tag.products, {
     eager: false,
   })
-  category: Category;
+  tag: Tag;
+
+  @ManyToMany((type) => ProductProperty, (property) => property.products, {
+    eager: true,
+  })
+  @JoinTable()
+  product_properties: ProductProperty[];
 }

@@ -9,21 +9,33 @@ import { Repository, EntityRepository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Category } from '../category/entities/category.entity';
+import { Tag } from '../tag/entities/tag.entity';
+import { ProductProperty } from '../product-property/entities/product-property.entity';
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
-    const { name, price, description, options, category_id } = createProductDto;
-    const category = await Category.findOne(category_id);
-    console.log(category);
+    const {
+      name,
+      price,
+      description,
+      options,
+      tag_id,
+      product_property_ids,
+    } = createProductDto;
+    const tag = await Tag.findOne(tag_id);
+    const product_properties = await ProductProperty.findByIds(
+      product_property_ids,
+    );
+    console.log(product_properties);
     const product = new Product();
     product.id = uuid();
     product.name = name;
     product.description = description;
     product.price = price;
     product.options = options;
-    product.category = category;
+    product.tag = tag;
+    product.product_properties = product_properties;
 
     try {
       return await product.save();

@@ -50,6 +50,7 @@ export class AuthService {
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
+      // domain: 'localhost:8000',
     });
     const jid = await this.jwtService.sign(payload, {
       expiresIn: '10d',
@@ -57,6 +58,7 @@ export class AuthService {
 
     res.cookie('jid', jid, {
       httpOnly: true,
+      // domain: 'localhost:8000',
     });
     res.send({ user });
   }
@@ -80,7 +82,7 @@ export class AuthService {
 
     res.cookie('jid', jid, {
       httpOnly: true,
-      // path: '/api/auth/refresh-token',
+      // domain: 'localhost:8000',
       expires: new Date(Date.now() + 900000),
     });
     res.clearCookie('accessToken');
