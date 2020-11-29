@@ -26,14 +26,13 @@ export class CategoryController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(
-    FileInterceptor('image', {
+    FileInterceptor('images', {
       fileFilter: imageFileFilter,
       limits: {
         fileSize: 10000000,
       },
       storage: diskStorage({
         destination: './uploads',
-
         filename: editFileName,
       }),
     }),
@@ -69,5 +68,11 @@ export class CategoryController {
   @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.categoryService.remove(id);
+  }
+
+  @Post('/generate')
+  @UseGuards(JwtAuthGuard)
+  generateCategory() {
+    return this.categoryService.generateCategory();
   }
 }

@@ -12,6 +12,22 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @EntityRepository(Category)
 export class CategoryRepository extends Repository<Category> {
+  async generateCategory(): Promise<Category> {
+    const category = new Category();
+    category.id = uuid();
+    category.name = uuid();
+    try {
+      return await category.save();
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException('Category Already Exists');
+      } else {
+        console.log(error);
+        throw new InternalServerErrorException();
+      }
+    }
+  }
+
   async createCategory(
     createCategoryDto: CreateCategoryDto,
     response,
@@ -21,7 +37,7 @@ export class CategoryRepository extends Repository<Category> {
     category.id = uuid();
     category.name = name;
     category.description = description;
-    category.images = `http://localhost:8080/imgs/${response.filename}`;
+    category.images = `http://localhost:8080/imgs/category/${response.filename}`;
     try {
       return await category.save();
     } catch (error) {
