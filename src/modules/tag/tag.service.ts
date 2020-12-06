@@ -11,8 +11,11 @@ export class TagService {
     private readonly tagRepository: TagRepository,
   ) {}
 
-  async create(createTagDto: CreateTagDto) {
-    return await this.tagRepository.createTag(createTagDto);
+  async create(createTagDto: CreateTagDto, response) {
+    return await this.tagRepository.createTag(createTagDto, response);
+  }
+  async generateTag() {
+    return await this.tagRepository.generateTag();
   }
 
   async findAll() {
@@ -25,8 +28,8 @@ export class TagService {
     });
   }
 
-  async update(id: string, updateTagDto: UpdateTagDto) {
-    return await this.tagRepository.updateTag(id, updateTagDto);
+  async update(id: string, updateTagDto: UpdateTagDto, response) {
+    return await this.tagRepository.updateTag(id, updateTagDto, response);
   }
 
   async remove(id: string) {

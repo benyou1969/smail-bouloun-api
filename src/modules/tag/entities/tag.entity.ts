@@ -10,10 +10,12 @@ import { ProductProperty } from 'src/modules/product-property/entities/product-p
 export class Tag extends GenericEntity {
   @Column()
   name: string;
+
   @Column({ nullable: true })
   description: string;
-  @Column({ nullable: true })
-  images: string;
+
+  @Column('text', { array: true, nullable: true })
+  images: string[];
 
   @OneToMany((type) => Product, (product) => product.tag, {
     eager: true,

@@ -17,4 +17,8 @@ export class AppController {
   seeUploadedFile(@Param('image') image, @Res() res) {
     return res.sendFile(image, { root: './uploads' });
   }
+  @Get('/imgs/tag/:image')
+  seeUploadedFiles(@Param('image') image, @Res() res) {
+    return res.sendFile(image, { root: './uploads' });
+  }
 }

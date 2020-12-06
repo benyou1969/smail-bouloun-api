@@ -1,4 +1,5 @@
 import * as argon2 from 'argon2';
+import { Exclude } from 'class-transformer';
 import { GenericEntity } from 'src/common/entities/generic.entity';
 
 import { Column, Entity, Unique } from 'typeorm';
@@ -13,6 +14,7 @@ export class User extends GenericEntity {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column({ nullable: true })
