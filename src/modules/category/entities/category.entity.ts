@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, Unique } from 'typeorm';
 
-import { GenericEntity } from 'src/common/entities/generic.entity';
-import { Tag } from 'src/modules/tag/entities/tag.entity';
+import { GenericEntity } from 'common/entities/generic.entity';
+import { Tag } from 'modules/tag/entities/tag.entity';
 
 @Entity('category')
 @Unique(['name'])

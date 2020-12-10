@@ -4,9 +4,9 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRepository } from 'src/modules/user/user.repository';
+import { UserRepository } from 'modules/user/user.repository';
 import { JwtPayload } from '../dtos';
-import { User } from 'src/modules/user/user.entity';
+import { User } from 'modules/user/user.entity';
 import { ConfigService } from '@nestjs/config';
 
 config();

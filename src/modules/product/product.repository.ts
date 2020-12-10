@@ -19,7 +19,7 @@ export class ProductRepository extends Repository<Product> {
       name,
       price,
       description,
-      options,
+      // options,
       tag_id,
       product_property_ids,
     } = createProductDto;
@@ -32,7 +32,7 @@ export class ProductRepository extends Repository<Product> {
     product.name = name;
     product.description = description;
     product.price = price;
-    product.options = options;
+    // product.options = options;
     product.tag = tag;
     product.product_properties = product_properties;
 

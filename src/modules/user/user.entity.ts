@@ -1,6 +1,6 @@
 import * as argon2 from 'argon2';
 import { Exclude } from 'class-transformer';
-import { GenericEntity } from 'src/common/entities/generic.entity';
+import { GenericEntity } from 'common/entities/generic.entity';
 
 import { BeforeInsert, Column, Entity, Unique } from 'typeorm';
 

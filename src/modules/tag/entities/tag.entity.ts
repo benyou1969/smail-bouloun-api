@@ -1,9 +1,9 @@
 import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm';
 
-import { GenericEntity } from 'src/common/entities/generic.entity';
-import { Category } from 'src/modules/category/entities/category.entity';
-import { Product } from 'src/modules/product/entities/product.entity';
-import { ProductProperty } from 'src/modules/product-property/entities/product-property.entity';
+import { GenericEntity } from 'common/entities/generic.entity';
+import { Category } from 'modules/category/entities/category.entity';
+import { Product } from 'modules/product/entities/product.entity';
+import { ProductProperty } from 'modules/product-property/entities/product-property.entity';
 
 @Entity('tags')
 @Unique(['name'])

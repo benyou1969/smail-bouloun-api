@@ -1,6 +1,6 @@
-import { GenericEntity } from 'src/common/entities/generic.entity';
-import { ProductProperty } from 'src/modules/product-property/entities/product-property.entity';
-import { Tag } from 'src/modules/tag/entities/tag.entity';
+import { GenericEntity } from 'common/entities/generic.entity';
+import { ProductProperty } from 'modules/product-property/entities/product-property.entity';
+import { Tag } from 'modules/tag/entities/tag.entity';
 import {
   Column,
   Entity,
@@ -25,19 +25,19 @@ export class Product extends GenericEntity {
   reference: string;
   @Column({ nullable: true })
   description: string;
-  @Column({
-    type: 'jsonb',
-    array: false,
-    default: () => "'[{}]'",
-    nullable: true,
-  })
-  options: Array<{
-    property: {
-      id: number;
-      key: string;
-      value: any;
-    };
-  }>;
+  // @Column({
+  //   type: 'jsonb',
+  //   array: false,
+  //   default: () => "'[{}]'",
+  //   nullable: true,
+  // })
+  // options: Array<{
+  //   property: {
+  //     id: number;
+  //     key: string;
+  //     value: any;
+  //   };
+  // }>;
 
   @ManyToOne((type) => Tag, (tag) => tag.products, {
     eager: false,

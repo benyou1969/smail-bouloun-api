@@ -3,7 +3,7 @@ import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 
 import { AuthSignInDto, AuthSignUpDto } from '../dtos';
 import { AuthService } from '../service/auth.service';
-import { User } from 'src/modules/user/user.entity';
+import { User } from 'modules/user/user.entity';
 import { GetUser } from '../decorator/get-user.decorator';
 import { JwtAuthGuard } from '../guard/jwt-auth.guard';
 import { ApiTags } from '@nestjs/swagger';

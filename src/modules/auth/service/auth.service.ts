@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Response } from 'express';
-import { User } from 'src/modules/user/user.entity';
-import { UserRepository } from 'src/modules/user/user.repository';
+import { User } from 'modules/user/user.entity';
+import { UserRepository } from 'modules/user/user.repository';
 import { AuthSignInDto, AuthSignUpDto, JwtPayload } from '../dtos';
 
 @Injectable()

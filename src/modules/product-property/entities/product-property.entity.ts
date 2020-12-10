@@ -1,6 +1,6 @@
-import { GenericEntity } from 'src/common/entities/generic.entity';
-import { Product } from 'src/modules/product/entities/product.entity';
-import { Tag } from 'src/modules/tag/entities/tag.entity';
+import { GenericEntity } from 'common/entities/generic.entity';
+import { Product } from 'modules/product/entities/product.entity';
+import { Tag } from 'modules/tag/entities/tag.entity';
 import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
 
 @Entity('ProductProperties')

@@ -12,12 +12,12 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
+import { JwtAuthGuard } from 'modules/auth/guard/jwt-auth.guard';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { diskStorage } from 'multer';
-import { editFileName, imageFileFilter } from 'src/utils/uploadfile';
+import { editFileName, imageFileFilter } from 'utils/uploadfile';
 
 @ApiTags('category')
 @Controller('category')

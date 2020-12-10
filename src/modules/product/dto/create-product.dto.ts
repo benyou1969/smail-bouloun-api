@@ -39,16 +39,16 @@ export class CreateProductDto {
   @IsOptional()
   description: string;
 
-  @IsArray()
-  @IsOptional()
-  @ApiProperty({ default: [{}] })
-  options: Array<{
-    property: {
-      id: number;
-      key: string;
-      value: any;
-    };
-  }>;
+  // @IsArray()
+  // @IsOptional()
+  // @ApiProperty({ default: [{}] })
+  // options: Array<{
+  //   property: {
+  //     id: number;
+  //     key: string;
+  //     value: any;
+  //   };
+  // }>;
 
   @ApiProperty()
   @IsString()
