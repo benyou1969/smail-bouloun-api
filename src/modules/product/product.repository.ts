@@ -27,7 +27,6 @@ export class ProductRepository extends Repository<Product> {
     const product_properties = await ProductProperty.findByIds(
       product_property_ids,
     );
-    console.log(product_properties);
     const product = new Product();
     product.id = uuid();
     product.name = name;

@@ -22,7 +22,6 @@ export class CategoryRepository extends Repository<Category> {
       if (error.code === '23505') {
         throw new ConflictException('Category Already Exists');
       } else {
-        console.log(error);
         throw new InternalServerErrorException();
       }
     }
@@ -44,7 +43,6 @@ export class CategoryRepository extends Repository<Category> {
       if (error.code === '23505') {
         throw new ConflictException('Category Already Exists');
       } else {
-        console.log(error);
         throw new InternalServerErrorException();
       }
     }
@@ -64,7 +62,6 @@ export class CategoryRepository extends Repository<Category> {
       if (error.code === '23505') {
         throw new ConflictException('Category Already Exists');
       } else {
-        console.log(error);
         throw new InternalServerErrorException();
       }
     }

@@ -15,7 +15,6 @@ export class AuthService {
   ) {}
 
   async signUp(authSignUpDto: AuthSignUpDto, ctx: Response) {
-    console.log(authSignUpDto);
     const user = await this.userRepository.signUp(authSignUpDto);
     await this.createToken(user.email, user, ctx);
   }
@@ -86,7 +85,6 @@ export class AuthService {
       expires: new Date(Date.now() + 900000),
     });
     res.clearCookie('accessToken');
-    console.log('jid', jid);
     return res.send({
       jid: jid,
     });

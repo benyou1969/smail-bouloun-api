@@ -24,6 +24,7 @@ import { UserRepository } from './user.repository';
     TypeOrmModule.forFeature([UserRepository]),
     JwtStrategy,
     PassportModule,
+    UserService,
   ],
 })
 export class UserModule {}
