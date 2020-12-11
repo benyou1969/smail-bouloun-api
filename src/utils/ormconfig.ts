@@ -16,7 +16,6 @@ export const config: ConnectionOptions = {
   url: configService.get('DATABASE_URL'),
   namingStrategy: new SnakeNamingStrategy(),
   entities: [User, Product, Category, ProductProperty, Tag],
-  // migrations: ['src/migrations/*{.ts,.js}'],
   migrations: [join(__dirname, `../migrations/*{.ts,.js}`)],
   migrationsRun: true,
   synchronize: false,
