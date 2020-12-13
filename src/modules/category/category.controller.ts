@@ -38,10 +38,13 @@ export class CategoryController {
     }),
   )
   create(@Body() createCategoryDto: CreateCategoryDto, @UploadedFile() file) {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
+    let response;
+    if (file) {
+      response = {
+        originalname: file.originalname,
+        filename: file.filename,
+      };
+    }
     return this.categoryService.create(createCategoryDto, response);
   }
 
@@ -57,11 +60,31 @@ export class CategoryController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(
+    FileInterceptor('images', {
+      fileFilter: imageFileFilter,
+      limits: {
+        fileSize: 10000000,
+      },
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+    }),
+  )
   update(
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
+    @UploadedFile() file,
   ) {
-    return this.categoryService.update(id, updateCategoryDto);
+    let response;
+    if (file) {
+      response = {
+        originalname: file.originalname,
+        filename: file.filename,
+      };
+    }
+    return this.categoryService.update(id, updateCategoryDto, response);
   }
 
   @Delete(':id')

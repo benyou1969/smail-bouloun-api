@@ -36,7 +36,9 @@ export class CategoryRepository extends Repository<Category> {
     category.id = uuid();
     category.name = name;
     category.description = description;
-    category.images = `http://localhost:8080/imgs/category/${response.filename}`;
+    category.images = response
+      ? `${process.env.API_URL}/imgs/category/${response.filename}`
+      : null;
     try {
       return await category.save();
     } catch (error) {
@@ -48,14 +50,20 @@ export class CategoryRepository extends Repository<Category> {
     }
   }
 
-  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto) {
-    const { name, description, images } = updateCategoryDto;
+  async updateCategory(
+    id: string,
+    updateCategoryDto: UpdateCategoryDto,
+    response,
+  ) {
+    const { name, description } = updateCategoryDto;
     const category = await this.findOneOrFail({ id }).catch((e) => {
       throw new NotFoundException('Category not found');
     });
     category.name = name || category.name;
     category.description = description || category.description;
-    category.images = images || category.images;
+    category.images = response
+      ? `${process.env.API_URL}/imgs/category/${response.filename}`
+      : category.images;
     try {
       return await category.save();
     } catch (error) {

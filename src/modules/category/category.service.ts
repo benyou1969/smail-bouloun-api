@@ -32,8 +32,12 @@ export class CategoryService {
     });
   }
 
-  async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    return await this.categoryRepository.updateCategory(id, updateCategoryDto);
+  async update(id: string, updateCategoryDto: UpdateCategoryDto, response) {
+    return await this.categoryRepository.updateCategory(
+      id,
+      updateCategoryDto,
+      response,
+    );
   }
 
   async remove(id: string) {

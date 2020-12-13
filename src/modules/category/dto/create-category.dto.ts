@@ -7,10 +7,6 @@ export class CreateCategoryDto {
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty()
-  @IsOptional()
-  images: string;
-
   @ApiProperty({ nullable: true })
   @IsString()
   @IsOptional()
