@@ -11,8 +11,11 @@ export class ProductService {
     private readonly productRepository: ProductRepository,
   ) {}
 
-  async create(createProductDto: CreateProductDto) {
-    return await this.productRepository.createProduct(createProductDto);
+  async create(createProductDto: CreateProductDto, response) {
+    return await this.productRepository.createProduct(
+      createProductDto,
+      response,
+    );
   }
 
   async findAll() {
@@ -25,8 +28,12 @@ export class ProductService {
     });
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
-    return await this.productRepository.updateProduct(id, updateProductDto);
+  async update(id: string, updateProductDto: UpdateProductDto, response) {
+    return await this.productRepository.updateProduct(
+      id,
+      updateProductDto,
+      response,
+    );
   }
 
   async remove(id: string) {

@@ -26,10 +26,6 @@ export class CreateProductDto {
   price: number;
 
   @ApiProperty()
-  @IsOptional()
-  images: string;
-
-  @ApiProperty()
   @IsString()
   @IsOptional()
   reference: string;

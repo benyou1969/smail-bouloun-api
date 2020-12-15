@@ -19,8 +19,8 @@ export class Product extends GenericEntity {
   available: boolean;
   @Column({ default: 0 })
   price: number;
-  @Column({ nullable: true })
-  images: string;
+  @Column('text', { array: true, nullable: true })
+  images: string[];
   @Column({ nullable: true })
   reference: string;
   @Column({ nullable: true })

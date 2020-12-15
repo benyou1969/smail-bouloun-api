@@ -14,7 +14,10 @@ import { ProductProperty } from '../product-property/entities/product-property.e
 
 @EntityRepository(Product)
 export class ProductRepository extends Repository<Product> {
-  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
+  async createProduct(
+    createProductDto: CreateProductDto,
+    response,
+  ): Promise<Product> {
     const {
       name,
       price,
@@ -24,6 +27,8 @@ export class ProductRepository extends Repository<Product> {
       product_property_ids,
     } = createProductDto;
     const tag = await Tag.findOne(tag_id);
+    const images = [];
+
     const product_properties = await ProductProperty.findByIds(
       product_property_ids,
     );
@@ -33,6 +38,11 @@ export class ProductRepository extends Repository<Product> {
     product.description = description;
     product.price = price;
     // product.options = options;
+    response.forEach((element) =>
+      images.push(`${process.env.API_URL}/imgs/tag/${element.filename}`),
+    );
+    product.images = images;
+
     product.tag = tag;
     product.product_properties = product_properties;
 
@@ -48,24 +58,42 @@ export class ProductRepository extends Repository<Product> {
     }
   }
 
-  async updateProduct(id: string, updateProductDto: UpdateProductDto) {
+  async updateProduct(
+    id: string,
+    updateProductDto: UpdateProductDto,
+    response,
+  ) {
     const {
       name,
       description,
-      images,
       available,
       price,
       reference,
+      product_property_ids,
+      tag_id,
     } = updateProductDto;
     const product = await this.findOneOrFail({ id }).catch((e) => {
       throw new NotFoundException('Product not found');
     });
+
+    const images = [];
+    response.forEach((element) => {
+      console.log('element', element);
+      images.push(`${process.env.API_URL}/imgs/tag/${element.filename}`);
+    });
+
+    const tag = await Tag.findOne(tag_id);
+
     product.name = name || product.name;
     product.price = price || product.price;
-    product.images = images || product.images;
     product.available = available || product.available;
     product.reference = reference || product.reference;
     product.description = description || product.description;
+    product.tag = tag || product.tag;
+    product.images = images?.length ? images : product.images;
+    product.product_properties = product_property_ids?.length
+      ? product_property_ids
+      : product.product_properties;
     try {
       return await product.save();
     } catch (error) {

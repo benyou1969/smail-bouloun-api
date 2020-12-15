@@ -7,6 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -14,6 +16,9 @@ import { ProductService } from '../service/product.service';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { UpdateProductDto } from '../dto/update-product.dto';
 import { JwtAuthGuard } from 'modules/auth/guard/jwt-auth.guard';
+import { editFileName, imageFileFilter } from 'utils/uploadfile';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @ApiTags('product')
 @Controller('product')
@@ -22,8 +27,30 @@ export class ProductController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @UseInterceptors(
+    FilesInterceptor('images', 20, {
+      fileFilter: imageFileFilter,
+      limits: {
+        fileSize: 10000000,
+      },
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+    }),
+  )
+  create(@Body() createProductDto: CreateProductDto, @UploadedFiles() files) {
+    const response = [];
+    if (files) {
+      files.forEach((file) => {
+        const fileReponse = {
+          originalname: file.originalname,
+          filename: file.filename,
+        };
+        response.push(fileReponse);
+      });
+    }
+    return this.productService.create(createProductDto, response);
   }
 
   @Get()
@@ -37,9 +64,35 @@ export class ProductController {
   }
 
   @Put(':id')
+  @UseInterceptors(
+    FilesInterceptor('images', 20, {
+      fileFilter: imageFileFilter,
+      limits: {
+        fileSize: 10000000,
+      },
+      storage: diskStorage({
+        destination: './uploads',
+        filename: editFileName,
+      }),
+    }),
+  )
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(id, updateProductDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @UploadedFiles() files,
+  ) {
+    const response = [];
+    if (files) {
+      files.forEach((file) => {
+        const fileReponse = {
+          originalname: file.originalname,
+          filename: file.filename,
+        };
+        response.push(fileReponse);
+      });
+    }
+    return this.productService.update(id, updateProductDto, response);
   }
 
   @Delete(':id')
