@@ -1,4 +1,12 @@
-import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  Unique,
+} from 'typeorm';
 
 import { GenericEntity } from 'common/entities/generic.entity';
 import { Category } from 'modules/category/entities/category.entity';
@@ -22,9 +30,10 @@ export class Tag extends GenericEntity {
   })
   products: Product[];
 
-  @OneToMany((type) => ProductProperty, (property) => property.tag, {
-    eager: false,
+  @ManyToMany((type) => ProductProperty, (property) => property.tags, {
+    eager: true,
   })
+  @JoinTable()
   properties: ProductProperty[];
 
   @ManyToOne((type) => Category, (category) => category.tags, {

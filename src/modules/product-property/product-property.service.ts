@@ -35,7 +35,7 @@ export class ProductPropertyService {
   }
 
   async remove(id: string) {
-    const result = await this.productPropertyRepository.softDelete({ id });
+    const result = await this.productPropertyRepository.delete({ id });
     console.log(result);
     if (result.affected === 1) {
       return { deleted: true };

@@ -38,10 +38,9 @@ export class TagRepository extends Repository<Tag> {
     tag.description = description;
     tag.category = category;
     console.log('element', response);
-    response.forEach((element) => {
-      console.log('element', element);
-      images.push(`http://localhost:8080/imgs/tag/${element.filename}`);
-    });
+    response.forEach((element) =>
+      images.push(`${process.env.API_URL}/imgs/tag/${element.filename}`),
+    );
     tag.images = images;
     try {
       return await tag.save();
@@ -60,7 +59,7 @@ export class TagRepository extends Repository<Tag> {
     const images = [];
     response.forEach((element) => {
       console.log('element', element);
-      images.push(`http://localhost:8080/imgs/tag/${element.filename}`);
+      images.push(`${process.env.API_URL}/imgs/tag/${element.filename}`);
     });
     const tag = await this.findOneOrFail({ id }).catch((e) => {
       throw new NotFoundException('Category not found');
@@ -68,7 +67,7 @@ export class TagRepository extends Repository<Tag> {
     tag.name = name || tag.name;
     tag.description = description || tag.description;
 
-    tag.images = images || tag.images;
+    tag.images = images?.length ? images : tag.images;
 
     try {
       return await tag.save();

@@ -18,7 +18,7 @@ export const config: ConnectionOptions = {
   entities: [User, Product, Category, ProductProperty, Tag],
   migrations: [join(__dirname, `../migrations/*{.ts,.js}`)],
   migrationsRun: true,
-  synchronize: false,
+  synchronize: true,
   logging: true,
   logger: 'file',
 };

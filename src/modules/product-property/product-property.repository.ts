@@ -17,13 +17,13 @@ export class ProductPropertyRepository extends Repository<ProductProperty> {
   async createProductProperty(
     createProductPropertyDto: CreateProductPropertyDto,
   ): Promise<ProductProperty> {
-    const { propertyName, propertyValue, tag_id } = createProductPropertyDto;
-    const tag = await Tag.findOne(tag_id);
+    const { propertyName, propertyValue, tag_ids } = createProductPropertyDto;
+    const tags = await Tag.findByIds(tag_ids);
     const productProperty = new ProductProperty();
     productProperty.id = uuid();
     productProperty.propertyName = propertyName;
     productProperty.propertyValue = propertyValue;
-    productProperty.tag = tag;
+    productProperty.tags = tags;
 
     try {
       return await productProperty.save();
@@ -41,13 +41,20 @@ export class ProductPropertyRepository extends Repository<ProductProperty> {
     id: string,
     updateProductPropertyDto: UpdateProductPropertyDto,
   ) {
-    const { propertyName, propertyValue } = updateProductPropertyDto;
+    const { propertyName, propertyValue, tag_ids } = updateProductPropertyDto;
+    const tags = await Tag.findByIds(tag_ids);
+    console.log(tag_ids);
+    console.log(tags);
     const productProperty = await this.findOneOrFail({ id }).catch((e) => {
       throw new NotFoundException('ProductProperty not found');
     });
-    productProperty.propertyName = propertyName || productProperty.propertyName;
-    productProperty.propertyValue =
-      propertyValue || productProperty.propertyValue;
+    productProperty.propertyName = propertyName
+      ? propertyName
+      : productProperty.propertyName;
+    productProperty.propertyValue = propertyValue
+      ? propertyValue
+      : productProperty.propertyValue;
+    productProperty.tags = tags?.length ? tags : productProperty.tags;
 
     try {
       return await productProperty.save();

@@ -1,7 +1,7 @@
 import { GenericEntity } from 'common/entities/generic.entity';
 import { Product } from 'modules/product/entities/product.entity';
 import { Tag } from 'modules/tag/entities/tag.entity';
-import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToMany } from 'typeorm';
 
 @Entity('ProductProperties')
 export class ProductProperty extends GenericEntity {
@@ -10,13 +10,14 @@ export class ProductProperty extends GenericEntity {
   @Column()
   propertyValue: string;
 
-  @ManyToOne((type) => Tag, (tag) => tag.properties, {
+  @ManyToMany((type) => Tag, (tag) => tag.properties, {
     eager: false,
   })
-  tag: Tag;
+  tags: Tag[];
 
   @ManyToMany((type) => Product, (product) => product.product_properties, {
     eager: false,
+    cascade: true,
   })
   products: Product[];
 }
